@@ -1,5 +1,11 @@
+import dns from 'node:dns';
 import mongoose from 'mongoose';
 import { ENV } from './env.js';
+
+// Force Google DNS — fixes "querySrv ECONNREFUSED" on some local networks
+if (ENV.NODE_ENV !== 'production') {
+    dns.setServers(['8.8.8.8', '8.8.4.4']);
+}
 
 export const connectDB = async () => {
     try {
